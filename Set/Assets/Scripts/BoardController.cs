@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardController : MonoBehaviour {
+public class BoardController : MonoBehaviour
+{
+    public static BoardController instance = null;
 
+    //  TEMP? : For now, I am treating m_grid as my 'card database' for access
     private GameObject[,] m_grid;
     private int m_currentWidth;
     private int m_currentHeight;
@@ -14,8 +17,18 @@ public class BoardController : MonoBehaviour {
 
     public GameObject CardPrefab;
 
-
-	void Start () { }
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    void Start () { }
 	void Update () { }
 
     //Generates gird based on default values (also resets the grid)
@@ -79,5 +92,22 @@ public class BoardController : MonoBehaviour {
             }
         }
         m_grid = newGrid;
+    }
+
+    //  FUTURE: I want to pass back information structs instead of GameObjects -- seems safer & avoids "null" objects
+    public GameObject GetCardObject(int hashCode)
+    {
+        for(int r = 0; r < m_currentHeight; ++r)
+        {
+            for(int c = 0; c < m_currentWidth; ++c)
+            {
+                if(m_grid[r, c].gameObject != null && m_grid[r, c].gameObject.GetHashCode() == hashCode)
+                {
+                    return m_grid[r, c];
+                }
+            }
+        }
+
+        return null;
     }
 }
