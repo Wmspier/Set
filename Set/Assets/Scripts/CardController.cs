@@ -4,38 +4,26 @@ using UnityEngine;
 
 public class CardController : MonoBehaviour
 {
-    public enum eAttribute
+    public void GenerateCard()
     {
-        ATTRIBUTE_1 = 0,
-        ATTRIBUTE_2,
-        ATTRIBUTE_3,
-
-        ATTRIBUTE_COUNT
+        RandomizeCardAttributes();
+        CreateCardView();
     }
 
-    private int[] m_attributes = new int[(int)(eAttribute.ATTRIBUTE_COUNT)];
-
-    // Use this for initialization
-    void Start()
+    void RandomizeCardAttributes()
     {
-        GenerateCard();
-    }
-
-    // Update is called once per frame
-    void Update() { }
-
-    //  DEBUG method; unsure if we are randomly generating 
-    void GenerateCard()
-    {
-        for (int i = 0; i < m_attributes.Length; ++i)
+        CardModel data = gameObject.GetComponent<CardModel>();
+        for (int i = 0; i < data.Attributes.Length; ++i)
         {
-            m_attributes[i] = Random.Range(0, 5);
+            data.Attributes[i] = (CardModel.eAttribute)Random.Range(0, 5);
         }
     }
 
-    public int GetAttribute(eAttribute attribute_key) 
+    void CreateCardView()
     {
-        return m_attributes[(m_attributes[(int)(attribute_key)])];
+        CardView view = gameObject.GetComponent<CardView>();
+        CardModel data = gameObject.GetComponent<CardModel>();
+        view.GenerateSymbols(data.Attributes);
     }
 
     //  Use to select the card as part of your 'set'

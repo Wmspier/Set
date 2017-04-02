@@ -26,18 +26,6 @@ public class PlayerHandController : MonoBehaviour
         m_proposedSet = new List<int>();
     }
 
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
     public void AddCardToProposedSet(int hashCode)
     {
         if(!IsCardInProposedSet(hashCode))
@@ -72,42 +60,42 @@ public class PlayerHandController : MonoBehaviour
                 }
             }
 
-            if(cards.Count == SET_MAX_CARD_NUM)
-            {
-                //  and now for the inevitable check all attributes loop
-                int attributeSuccessCount = 0;
-                for(int a = 0; a < (int)(CardController.eAttribute.ATTRIBUTE_COUNT); ++a)
-                {
-                    bool cardsMatch = cards[0].GetAttribute((CardController.eAttribute)(a)) == cards[1].GetAttribute((CardController.eAttribute)(a));
-                    int lastCardValue = -1;
+            //if(cards.Count == SET_MAX_CARD_NUM)
+            //{
+            //    //  and now for the inevitable check all attributes loop
+            //    int attributeSuccessCount = 0;
+            //    for(int a = 0; a < (int)(CardController.eAttribute.ATTRIBUTE_COUNT); ++a)
+            //    {
+            //        bool cardsMatch = cards[0].GetAttribute((CardController.eAttribute)(a)) == cards[1].GetAttribute((CardController.eAttribute)(a));
+            //        int lastCardValue = -1;
 
-                    bool streakBroken = false;
-                    for(int c = 2; c < SET_MAX_CARD_NUM; ++c)
-                    {
-                        int attributeValue = cards[c].GetAttribute((CardController.eAttribute)(a)); 
-                        if( (cardsMatch ? lastCardValue == attributeValue : lastCardValue != attributeValue ) )
-                        {
-                            lastCardValue = attributeValue;
-                        }
-                        else
-                        {
-                            streakBroken = true;
-                            break;
-                        }
-                    }
+            //        bool streakBroken = false;
+            //        for(int c = 2; c < SET_MAX_CARD_NUM; ++c)
+            //        {
+            //            int attributeValue = cards[c].GetAttribute((CardController.eAttribute)(a)); 
+            //            if( (cardsMatch ? lastCardValue == attributeValue : lastCardValue != attributeValue ) )
+            //            {
+            //                lastCardValue = attributeValue;
+            //            }
+            //            else
+            //            {
+            //                streakBroken = true;
+            //                break;
+            //            }
+            //        }
 
-                    if(streakBroken)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        attributeSuccessCount++;
-                    }
+            //        if(streakBroken)
+            //        {
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            attributeSuccessCount++;
+            //        }
 
-                }
-                return (attributeSuccessCount == 3);    //  TODO: this '3' should be defined somewhere and NOT hardcoded ._.
-            }
+            //    }
+            //    return (attributeSuccessCount == 3);    //  TODO: this '3' should be defined somewhere and NOT hardcoded ._.
+            //}
         }
 
         return false;
