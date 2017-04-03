@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CardController : MonoBehaviour
 {
+    private void Start()
+    {
+        GenerateCard();
+    }
+
+
     public void GenerateCard()
     {
         RandomizeCardAttributes();
@@ -15,7 +21,7 @@ public class CardController : MonoBehaviour
         CardModel data = gameObject.GetComponent<CardModel>();
         for (int i = 0; i < data.Attributes.Length; ++i)
         {
-            data.Attributes[i] = (CardModel.eAttribute)Random.Range(0, 5);
+            data.Attributes[i] = /*(CardModel.eAttribute)*/Random.Range(0, CardModel.GetAttributeQuantity(i));
         }
     }
 
