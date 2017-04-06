@@ -28,7 +28,7 @@ public class CardModel : MonoBehaviour {
     {
         CIRCLE = 0,
         DIAMOND,
-        SQUARE,
+        STAR,
 
         QUANTITY
     }

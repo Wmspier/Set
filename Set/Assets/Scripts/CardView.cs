@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class CardView : MonoBehaviour
 { 
@@ -95,22 +96,36 @@ public class CardView : MonoBehaviour
             Debug.LogError("CardView::SetUpShape -- no image on this gameobject!");
             return;
         }
-
-        //  todo -- change image/texture!
-
+        
+        string path = "Assets/Sprites/";
         switch((CardModel.eShape)shapeValue)
         {
             case CardModel.eShape.CIRCLE:
+                path += "Circle";
                 break;
             case CardModel.eShape.DIAMOND:
+                path += "Diamond";
                 break;
-            case CardModel.eShape.SQUARE:
+            case CardModel.eShape.STAR:
+                path += "Star";
                 break;
             default:
                 {
                     Debug.LogError("CardView::SetUpShape -- given value is not defined!");
                 }
                 break;
+        }
+        path += ".png";
+
+        Sprite newSprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+
+        if (newSprite != null)
+        {
+            symbolImage.sprite = newSprite;
+        }
+        else
+        {
+            Debug.LogError("CardView::SetUpShape -- sprite could not be found at path: " + path);
         }
 
     }
