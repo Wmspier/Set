@@ -7,7 +7,7 @@ public class CardModel : MonoBehaviour {
     public enum eAttribute
     {
         COLOR = 0,
-        FILL,
+    //    FILL,
         SHAPE,
         NUMBER,
 
@@ -57,8 +57,8 @@ public class CardModel : MonoBehaviour {
         {
             case eAttribute.COLOR:
                 return (int)eColor.QUANTITY;
-            case eAttribute.FILL:
-                return (int)eFill.QUANTITY;
+   //         case eAttribute.FILL:
+   //             return (int)eFill.QUANTITY;
             case eAttribute.SHAPE:
                 return (int)eShape.QUANTITY;
             case eAttribute.NUMBER:

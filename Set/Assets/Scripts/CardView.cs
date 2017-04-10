@@ -5,10 +5,20 @@ using UnityEngine.UI;
 using UnityEditor;
 
 public class CardView : MonoBehaviour
-{ 
-    public GameObject _SymbolPrefab;
+{
+    protected Image m_cardImage;
 
+    public GameObject _SymbolPrefab;
     public GameObject[] Symbols;
+
+    private void Awake()
+    {
+        m_cardImage = this.GetComponent<Image>();
+        if(m_cardImage == null)
+        {
+            Debug.LogError("CardView::Awake -- Image component not found!");
+        }
+    }
 
     public void GenerateSymbols(int[] attributes)
     {
@@ -21,7 +31,7 @@ public class CardView : MonoBehaviour
             GameObject newSymbolObj = GameObject.Instantiate(_SymbolPrefab);
 
             SetUpColor(newSymbolObj, attributes[(int)CardModel.eAttribute.COLOR]);
-            SetUpFill(newSymbolObj, attributes[(int)CardModel.eAttribute.FILL]);
+     //       SetUpFill(newSymbolObj, attributes[(int)CardModel.eAttribute.FILL]);
             SetUpShape(newSymbolObj, attributes[(int)CardModel.eAttribute.SHAPE]);
 
             newSymbolObj.transform.SetParent(this.transform);
@@ -129,4 +139,11 @@ public class CardView : MonoBehaviour
         }
 
     }
+
+    //  Excludes symbols
+    public void ChangeCardColor(Color newColor)
+    {
+        m_cardImage.color = newColor;
+    }
+
 }

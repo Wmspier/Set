@@ -95,19 +95,29 @@ public class BoardController : MonoBehaviour
     }
 
     //  FUTURE: I want to pass back information structs instead of GameObjects -- seems safer & avoids "null" objects
-    public GameObject GetCardObject(int hashCode)
+    public GameObject GetCardObject(int cardID)
     {
-        for(int r = 0; r < m_currentHeight; ++r)
+        for(int r = 0; r < m_currentWidth; ++r)
         {
-            for(int c = 0; c < m_currentWidth; ++c)
+            for(int c = 0; c < m_currentHeight; ++c)
             {
-                if(m_grid[r, c].gameObject != null && m_grid[r, c].gameObject.GetHashCode() == hashCode)
+                CardController cardControl = m_grid[r, c].GetComponent<CardController>();
+                if(cardControl != null && cardControl.CardID == cardID)
                 {
                     return m_grid[r, c];
                 }
             }
         }
-
         return null;
+    }
+
+    public void UnselectGivenCards(List<int> cardIdList)
+    {
+        for(int i = 0; i < cardIdList.Count; ++i)
+        {
+            GameObject cardObj = GetCardObject(cardIdList[i]);
+            CardController cardControl = cardObj.GetComponent<CardController>();
+            cardControl.Deselect();
+        }
     }
 }
