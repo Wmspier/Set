@@ -110,14 +110,4 @@ public class BoardController : MonoBehaviour
         }
         return null;
     }
-
-    public void UnselectGivenCards(List<int> cardIdList)
-    {
-        for(int i = 0; i < cardIdList.Count; ++i)
-        {
-            GameObject cardObj = GetCardObject(cardIdList[i]);
-            CardController cardControl = cardObj.GetComponent<CardController>();
-            cardControl.Deselect();
-        }
-    }
 }

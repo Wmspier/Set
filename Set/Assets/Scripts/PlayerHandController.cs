@@ -64,18 +64,23 @@ public class PlayerHandController : MonoBehaviour
             {
                 //  and now for the inevitable check all attributes loop
                 int attributeSuccessCount = 0;
+                List<int> attributeContainer = new List<int>();
                 for (int a = 0; a < (int)(CardModel.eAttribute.QUANTITY); ++a)
                 {
-                    bool cardsMatch = cards[0].GetCardAttributeValue((CardModel.eAttribute)(a)) == cards[1].GetCardAttributeValue((CardModel.eAttribute)(a));
-                    int lastCardValue = -1;
+                    attributeContainer.Add(cards[0].GetCardAttributeValue((CardModel.eAttribute)(a)));
+                    attributeContainer.Add(cards[1].GetCardAttributeValue((CardModel.eAttribute)(a)));
+                    bool cardsMatch = attributeContainer[0] == attributeContainer[1];
 
                     bool streakBroken = false;
                     for (int c = 2; c < SET_MAX_CARD_NUM; ++c)
                     {
                         int attributeValue = cards[c].GetCardAttributeValue((CardModel.eAttribute)(a));
-                        if ((cardsMatch ? lastCardValue == attributeValue : lastCardValue != attributeValue))
+                        
+                        if ( cardsMatch ? 
+                            attributeContainer[0] == attributeValue 
+                            : !attributeContainer.Contains(attributeValue) )
                         {
-                            lastCardValue = attributeValue;
+                            attributeContainer.Add(attributeValue);
                         }
                         else
                         {
@@ -83,6 +88,8 @@ public class PlayerHandController : MonoBehaviour
                             break;
                         }
                     }
+
+                    attributeContainer.Clear();
 
                     if (streakBroken)
                     {
@@ -92,7 +99,6 @@ public class PlayerHandController : MonoBehaviour
                     {
                         attributeSuccessCount++;
                     }
-
                 }
                 return (attributeSuccessCount == 3);    //  TODO: this '3' should be defined somewhere and NOT hardcoded ._.
             }
@@ -112,11 +118,12 @@ public class PlayerHandController : MonoBehaviour
 
             //  Check/restock board || send event for new cards
 
-            Debug.LogError("YOU GOT ONE");
+            Debug.Log("YOU GOT ONE");
         }
         else
         {
-           //   lose animation or whatever here
+            //   lose animation or whatever here
+            Debug.Log("UGH NO. IDIOT.");
         }
 
         ClearProposedSet();
@@ -124,7 +131,12 @@ public class PlayerHandController : MonoBehaviour
 
     public void ClearProposedSet()
     {
-        BoardController.instance.UnselectGivenCards(m_proposedSet);
+        foreach(int id in m_proposedSet)
+        {
+            GameObject cardObj = BoardController.instance.GetCardObject(id);
+            CardController cardControl = cardObj.GetComponent<CardController>();
+            cardControl.ChangeCardColor(cardControl._DEBUG_UNSELECTED_COLOR);
+        }
         m_proposedSet.Clear();
     }
 

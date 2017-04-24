@@ -8,7 +8,7 @@ public class CardController : MonoBehaviour
     private int m_card_id;
     public int CardID { get { return m_card_id; } }
 
-    public Color _DEBUG_SELECTED_COLOR = Color.yellow;
+    public Color _DEBUG_SELECTED_COLOR = Color.gray;
     public Color _DEBUG_UNSELECTED_COLOR = Color.white;
 
     private void Awake()
@@ -44,33 +44,28 @@ public class CardController : MonoBehaviour
         view.GenerateSymbols(data.Attributes);
     }
 
-    public void ToggleSelectState()
+    public void BTN_OnClick()
     {
-        Debug.Log("ToggleSelectState()");
+        ToggleSelectColor();
+    }
 
+    public void ToggleSelectColor()
+    {
         if (PlayerHandController.instance.IsCardInProposedSet(CardID))
         {
-            Deselect();
+            ChangeCardColor(_DEBUG_UNSELECTED_COLOR);
+            PlayerHandController.instance.RemoveCardFromProposedSet(CardID);
         }
         else
         {
-            Select();
+            ChangeCardColor(_DEBUG_SELECTED_COLOR);
+            PlayerHandController.instance.AddCardToProposedSet(CardID);
         }
     }
-    
-    //  Use to select the card as part of your 'set'
-    private void Select()
-    {
-        //  Send event to PlayerHand? w/ self as param
-        PlayerHandController.instance.AddCardToProposedSet(CardID);
-        GetCardView().ChangeCardColor(_DEBUG_SELECTED_COLOR);
-    }
 
-    public void Deselect()
+    public void ChangeCardColor(Color colValue)
     {
-        //  Send event to PlayerHand? w/ self as param
-        PlayerHandController.instance.RemoveCardFromProposedSet(CardID);
-        GetCardView().ChangeCardColor(_DEBUG_UNSELECTED_COLOR);
+        GetCardView().ChangeCardColor(colValue);
     }
 
     protected CardView GetCardView()
