@@ -22,19 +22,26 @@ public class CardController : MonoBehaviour
     }
 
 
-    public void GenerateCard()
+    void GenerateCard()
     {
         RandomizeCardAttributes();
         CreateCardView();
     }
 
-    void RandomizeCardAttributes()
+    public void RandomizeCardAttributes()
     {
         CardModel data = gameObject.GetComponent<CardModel>();
         for (int i = 0; i < data.Attributes.Length; ++i)
         {
             data.Attributes[i] = /*(CardModel.eAttribute)*/Random.Range(0, CardModel.GetAttributeQuantity(i));
         }
+    }
+
+    public void UpdateCardSymbols()
+    {
+        CardView view = gameObject.GetComponent<CardView>();
+        CardModel data = gameObject.GetComponent<CardModel>();
+        view.UpdateCardSymbols(data.Attributes);
     }
 
     void CreateCardView()

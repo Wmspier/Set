@@ -112,11 +112,17 @@ public class PlayerHandController : MonoBehaviour
     {
         if(IsProposedSetCorrect())
         {
-            //  Remove Cards from board
-
             //  Add to score
 
-            //  Check/restock board || send event for new cards
+            //  Remove Cards from board
+            //  Check/restock board 
+            foreach (int id in m_proposedSet)
+            {
+                GameObject cardObj = BoardController.instance.GetCardObject(id);
+                CardController cardControl = cardObj.GetComponent<CardController>();
+                cardControl.RandomizeCardAttributes();
+                cardControl.UpdateCardSymbols();
+            }
 
             Debug.Log("YOU GOT ONE");
         }

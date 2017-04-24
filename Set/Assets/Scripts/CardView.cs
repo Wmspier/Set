@@ -146,4 +146,14 @@ public class CardView : MonoBehaviour
         m_cardImage.color = newColor;
     }
 
+    public void UpdateCardSymbols(int[] attributes)
+    {
+        foreach(GameObject symObj in Symbols)
+        {
+            SetUpColor(symObj, attributes[(int)CardModel.eAttribute.COLOR]);
+            //       SetUpFill(newSymbolObj, attributes[(int)CardModel.eAttribute.FILL]);
+            SetUpShape(symObj, attributes[(int)CardModel.eAttribute.SHAPE]);
+        }
+    }
+
 }
